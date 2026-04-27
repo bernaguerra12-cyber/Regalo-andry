@@ -1,68 +1,134 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Andry Julio</title>
+    <title>El Universo de Andry Julio</title>
     <style>
         body {
             margin: 0;
             height: 100vh;
+            background: #05070a;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            overflow: hidden;
             color: white;
             font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
-        
-        .stars {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/stars.png') repeat;
-            z-index: 0;
         }
 
-        .container {
+        /* Estrellas de fondo */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+        }
+
+        /* El Sol / Centro de la Galaxia */
+        .sun {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffcc00, #ff8800);
+            border-radius: 50%;
+            box-shadow: 0 0 50px #ffaa00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            z-index: 1;
-            padding: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #440000;
+            z-index: 10;
+        }
+
+        /* Órbitas */
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rotate linear infinite;
+        }
+
+        .orbit-1 { width: 200px; height: 200px; animation-duration: 10s; }
+        .orbit-2 { width: 350px; height: 350px; animation-duration: 20s; }
+        .orbit-3 { width: 500px; height: 500px; animation-duration: 30s; }
+
+        /* Planetas */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .p1 { width: 20px; height: 20px; background: #4da6ff; right: -10px; box-shadow: 0 0 15px #4da6ff; }
+        .p2 { width: 30px; height: 30px; background: #ff4d4d; left: -15px; box-shadow: 0 0 15px #ff4d4d; }
+        .p3 { width: 25px; height: 25px; background: #cc66ff; right: -12px; box-shadow: 0 0 15px #cc66ff; }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Texto */
+        .content {
+            position: absolute;
+            bottom: 10%;
+            text-align: center;
+            width: 100%;
+            z-index: 20;
         }
 
         h1 {
-            font-size: 2.5rem;
-            text-shadow: 0 0 20px #fff;
-            animation: glow 2s ease-in-out infinite alternate;
+            font-size: 2rem;
+            text-shadow: 0 0 15px #ff99cc;
+            margin-bottom: 5px;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073; }
-            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6; }
-        }
-
-        .countdown {
+        .timer {
             font-size: 1.2rem;
-            margin-top: 20px;
-            color: #ff99cc;
+            color: #ffccff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 20px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="container">
-        <h1>¡Feliz Cumpleaños, Andry Julio!</h1>
-        <p>Eres la estrella que más brilla en mi universo.</p>
-        <div id="reloj" class="countdown"></div>
+
+    <div class="stars-container"></div>
+
+    <div class="sun">NUESTRO<br>AMOR</div>
+
+    <div class="orbit orbit-1"><div class="planet p1"></div></div>
+    <div class="orbit orbit-2"><div class="planet p2"></div></div>
+    <div class="orbit orbit-3"><div class="planet p3"></div></div>
+
+    <div class="content">
+        <h1>Andry Julio</h1>
+        <p>Mi universo entero gira en torno a ti</p>
+        <div id="countdown" class="timer">Cargando galaxia...</div>
     </div>
 
     <script>
-        const fechaCumple = new Date('May 26, 2026 00:00:00').getTime();
+        function updateTimer() {
+            const target = new Date('May 26, 2026 00:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
 
-        setInterval(() => {
-            const ahora = new Date().getTime();
-            const distancia = fechaCumple - ahora;
-            
-            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000
-                                                                            
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = 
+                `${d}d ${h}h ${m}m ${s}s para tu cumple`;
+        }
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
+         
