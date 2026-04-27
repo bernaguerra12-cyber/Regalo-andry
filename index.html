@@ -114,20 +114,29 @@
     </div>
 
     <script>
-        function updateTimer() {
-            const target = new Date('May 26, 2026 00:00:00').getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
+      function updateTimer() {
+  const target = new Date('May 26, 2026 00:00:00').getTime();
+  const now = new Date().getTime();
+  const diff = target - now;
 
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
+  // Si el tiempo llega a cero o ya pasó
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = "¡FELIZ CUMPLEAÑOS ANDRY! ❤️";
+    return; 
+  }
 
-            document.getElementById('countdown').innerHTML = 
-                `${d}d ${h}h ${m}m ${s}s para tu cumple`;
-        }
-        setInterval(updateTimer, 1000);
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+  document.getElementById('countdown').innerHTML = 
+    `${d}d ${h}h ${m}m ${s}s para tu cumple`;
+}
+
+// Esto hace que la función se ejecute cada 1 segundo
+setInterval(updateTimer, 1000);
+
     </script>
 </body>
 </html>
